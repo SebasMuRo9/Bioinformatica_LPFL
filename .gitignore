@@ -1,0 +1,4 @@
+﻿pfam/
+*.gz
+*.hmm
+*.hmm.*
