@@ -1,4 +1,2 @@
 ﻿pfam/
-*.gz
-*.hmm
-*.hmm.*
+famUniProt/
