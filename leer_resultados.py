@@ -1,3 +1,5 @@
+from Proteina import Proteina # Importamos la clase Proteina desde el archivo Proteina.py
+
 archivo = "resultados_pfam.tbl"
 
 resultados = []
