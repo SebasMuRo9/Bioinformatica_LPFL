@@ -19,5 +19,5 @@ do
 
 done < ids_uniprot.txt #finaliza el ciclo, aquí se indica cual archivo va a leer
 
-fi #elimina el archivo temporal temp.fasta para evitar confusiones en la próxima iteración
+
 

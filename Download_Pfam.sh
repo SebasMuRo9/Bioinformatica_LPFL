@@ -14,4 +14,5 @@ hmmfetch -f Pfam-A.hmm ../familias_pfam.txt > Pfam_reducido.hmm #extrae las fami
 
 hmmpress Pfam_reducido.hmm #prepara el archivo Pfam_reducido.hmm para su uso con HMMER, creando los archivos necesarios para la búsqueda de perfiles de HMM
 
-hmmscan --tblout resultados_pfam.tbl pfam/Pfam_reducido.hmm famUniProt/secuencias_uniprot.fasta
+#utiliza el comando hmmscan para buscar perfiles de HMM en el archivo Pfam_reducido.hmm contra las secuencias en secuencias_uniprot.fasta, y guarda los resultados en un archivo llamado resultados_pfam.tbl
+hmmscan --tblout resultados_pfam.tbl pfam/Pfam_reducido.hmm famUniProt/secuencias_uniprot.fasta 
