@@ -5,14 +5,38 @@ sudo apt install hmmer -y #instala el software HMMER, que se utiliza para buscar
 mkdir -p pfam #make directory, crea una carpeta llamada pfam y -p evita errores si la carpeta ya existe
 cd pfam #entra a la carpeta pfam
 
-wget https://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam38.2/Pfam-A.hmm.gz #descarga el archivo Pfam-A.hmm.gz
+# Borrar archivos anteriores de Pfam reducido
+rm -f Pfam_reducido.hmm
+rm -f Pfam_reducido.hmm.h3f
+rm -f Pfam_reducido.hmm.h3i
+rm -f Pfam_reducido.hmm.h3m
+rm -f Pfam_reducido.hmm.h3p
 
-gunzip Pfam-A.hmm.gz #descomprime el archivo Pfam-A.hmm.gz
+# Borrar índice viejo del Pfam completo
+rm -f Pfam-A.hmm.ssi
 
-hmmfetch --index Pfam-A.hmm #crea un índice para el archivo Pfam-A.hmm, lo que permite buscar perfiles de HMM específicos dentro del archivo
-hmmfetch -f Pfam-A.hmm ../familias_pfam.txt > Pfam_reducido.hmm #extrae las familias de Pfam especificadas en el archivo familias_pfam.txt y guarda en Pfam_reducido.hmm
+# Descargar Pfam solo si no existe
+if [ ! -f Pfam-A.hmm ] && [ ! -f Pfam-A.hmm.gz ]
+then
+    wget https://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam38.2/Pfam-A.hmm.gz
+fi
 
-hmmpress Pfam_reducido.hmm #prepara el archivo Pfam_reducido.hmm para su uso con HMMER, creando los archivos necesarios para la búsqueda de perfiles de HMM
+# Descomprimir solo si todavía existe el .gz
+if [ -f Pfam-A.hmm.gz ]
+then
+    gunzip -f Pfam-A.hmm.gz
+fi
 
+# Borrar índice viejo del archivo grande
+rm -f Pfam-A.hmm.ssi
+
+ #awk para leer el archivo Pfam-A.hmm y crear un nuevo Pfam_reducido.hmm con las primeras 50 familias de Pfam
+awk 'BEGIN{contador=0} {print} /^\/\// {contador++; if(contador==50) exit}' Pfam-A.hmm > Pfam_reducido.hmm
+
+hmmpress Pfam_reducido.hmm #prepara el archivo Pfam_reducido.hmm para su uso con HMMER
+echo "Pfam reducido creado correctamente."
+
+cd .. #regresa al directorio anterior
 #utiliza el comando hmmscan para buscar perfiles de HMM en el archivo Pfam_reducido.hmm contra las secuencias en secuencias_uniprot.fasta, y guarda los resultados en un archivo llamado resultados_pfam.tbl
 hmmscan --tblout resultados_pfam.tbl pfam/Pfam_reducido.hmm famUniProt/secuencias_uniprot.fasta 
+echo "hmmscan terminado correctamente."
