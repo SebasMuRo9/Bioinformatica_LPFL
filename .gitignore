@@ -1,2 +1,18 @@
-﻿pfam/
+﻿#Carpetas BD
+pfam/
 famUniProt/
+
+# Resultados
+*.tbl
+*.out
+
+# Archivos temporales
+temp.fasta
+prueba.fasta
+
+# Python
+__pycache__/
+*.pyc
+
+# Sistema
+.DS_Store
