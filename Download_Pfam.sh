@@ -31,7 +31,7 @@ fi
 rm -f Pfam-A.hmm.ssi
 
  #awk para leer el archivo Pfam-A.hmm y crear un nuevo Pfam_reducido.hmm con las primeras 50 familias de Pfam
-awk 'BEGIN{contador=0} {print} /^\/\// {contador++; if(contador==50) exit}' Pfam-A.hmm > Pfam_reducido.hmm
+awk 'BEGIN{cont=0} {print} /^\/\// {cont++; if(cont==50) exit}' Pfam-A.hmm > Pfam_reducido.hmm
 
 hmmpress Pfam_reducido.hmm #prepara el archivo Pfam_reducido.hmm para su uso con HMMER
 echo "Pfam reducido creado correctamente."
